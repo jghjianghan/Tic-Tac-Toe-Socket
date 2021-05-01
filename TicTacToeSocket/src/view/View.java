@@ -1,7 +1,7 @@
 package view;
 
 import model.Board;
-import model.GameResult;
+import model.GameState;
 
 /**
  *

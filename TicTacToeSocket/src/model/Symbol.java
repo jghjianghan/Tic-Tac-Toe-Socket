@@ -17,4 +17,4 @@ public enum Symbol {
      * Simbol dari player 2
      */
     P2;
-}
+    }
