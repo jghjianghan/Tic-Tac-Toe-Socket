@@ -1,13 +1,14 @@
 package view;
 
 import model.Board;
-import model.GameState;
 
 /**
  *
  */
-public interface View {
+public interface GameplayView {
     public void drawBoard(Board board);
     public void showResult(String result);
     public void updateScore(int selfScore, int enemyScore);
+    public void start();
+    public void stop();
 }

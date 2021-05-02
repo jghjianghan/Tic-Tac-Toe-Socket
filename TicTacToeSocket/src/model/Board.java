@@ -130,4 +130,12 @@ public class Board {
         }
         return isBoardFull?GameState.DRAW:GameState.ONGOING;
     }
+
+    public boolean isValidMove(int row, int column){
+        try {
+            return board[row][column] == Symbol.EMPTY;
+        } catch (IndexOutOfBoundsException e){
+            return false;
+        }
+    }
 }
