@@ -12,21 +12,22 @@ import model.Board;
  * @author USER
  */
 public class GUIBoard extends javax.swing.JFrame implements GameplayView {
-    private final String P1Symbol = "X";
-    private final String P2Symbol = "O";
+    private final String CrossSymbol = "X";
+    private final String NaughtSymbol = "O";
+    private boolean isPlayingFirst;
+    private final boolean isServer;
     
     private String mulai = "X";
-//    private int counterx =0;
-    private int countery = 0;
     private final javax.swing.JButton[][] buttonBoard;
     private GameplayController controller;
     /**
-     * Creates new form TicTacToe
+     * Creates new form GUIBoard
      * @param isServer
      */
     public GUIBoard(boolean isServer) {
         initComponents();
         jLabel1.setText(isServer?"Server":"Client");
+        this.isServer = isServer;
         buttonBoard = new javax.swing.JButton[3][3];
         buttonBoard[0][0] = btn1;
         buttonBoard[0][1] = btn2;
@@ -37,22 +38,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         buttonBoard[2][0] = btn7;
         buttonBoard[2][1] = btn8;
         buttonBoard[2][2] = btn9;
-    }
-
-    private void skor() {
-        System.out.println("Skor");
-//        labelMyScore.setText(String.valueOf(hitungX));
-//        labelEnemyScore.setText(String.valueOf(hitungO));
-
-    }
-
-    private void pilihPemain() {//mengubah giliran pemain, dimulai dari pemain X
-        if (mulai.equalsIgnoreCase("X")) {
-            mulai = "O";
-
-        } else {
-            mulai = "X";
-        }
     }
 
     /**
@@ -84,6 +69,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         btnExit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        turnLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tic Tac Toe");
@@ -261,6 +247,10 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                 .addContainerGap())
         );
 
+        turnLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        turnLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        turnLabel.setText("Giliran");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -287,7 +277,9 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                         .addGap(18, 18, 18)
                         .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(turnLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(t, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -309,7 +301,10 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(turnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -415,6 +410,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     private javax.swing.JLabel playerX;
     private javax.swing.JLabel playerY;
     private javax.swing.JPanel t;
+    private javax.swing.JLabel turnLabel;
     // End of variables declaration//GEN-END:variables
 
     private void processMove(int row, int col){
@@ -423,7 +419,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     }
     
     @Override
-    public final void drawBoard(Board board) {
+    public void drawBoard(Board board) {
         btn1.setText(mulai);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -432,14 +428,53 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                         buttonBoard[i][j].setText("");
                         break;
                     case P1:
-                        buttonBoard[i][j].setText(P1Symbol);
-                        buttonBoard[i][j].setForeground(Color.RED);
+                        if (isServer){
+                            if (isPlayingFirst){ //my cell
+                                buttonBoard[i][j].setText(CrossSymbol);
+                                buttonBoard[i][j].setForeground(Color.RED);
+                            } else { //musuh
+                                buttonBoard[i][j].setText(CrossSymbol);
+                                buttonBoard[i][j].setForeground(Color.BLUE);
+                            }
+                        } else {
+                            if (isPlayingFirst){ //my cell
+                                buttonBoard[i][j].setText(CrossSymbol);
+                                buttonBoard[i][j].setForeground(Color.BLUE);
+                            } else { //musuh
+                                buttonBoard[i][j].setText(CrossSymbol);
+                                buttonBoard[i][j].setForeground(Color.RED);
+                            }
+                        }
                         break;
                     case P2:
-                        buttonBoard[i][j].setText(P2Symbol);
-                        buttonBoard[i][j].setForeground(Color.BLUE);
+                        if (isServer){
+                            if (!isPlayingFirst){ //my cell
+                                buttonBoard[i][j].setText(NaughtSymbol);
+                                buttonBoard[i][j].setForeground(Color.RED);
+                            } else { //musuh
+                                buttonBoard[i][j].setText(NaughtSymbol);
+                                buttonBoard[i][j].setForeground(Color.BLUE);
+                            }
+                        } else {
+                            if (!isPlayingFirst){ //my cell
+                                buttonBoard[i][j].setText(NaughtSymbol);
+                                buttonBoard[i][j].setForeground(Color.BLUE);
+                            } else { //musuh
+                                buttonBoard[i][j].setText(NaughtSymbol);
+                                buttonBoard[i][j].setForeground(Color.RED);
+                            }
+                        }
                         break;
                 }
+            }
+        }
+    }
+    
+    @Override
+    public void drawBoardColor(boolean isColored[][]) {
+        for (int i = 0; i<3; i++){
+            for (int j = 0; j < 3; j++) {
+                buttonBoard[i][j].setBackground(isColored[i][j]?Color.GREEN:null);
             }
         }
     }
@@ -454,6 +489,16 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     public void updateScore(int selfScore, int enemyScore) {
         labelMyScore.setText(Integer.toString(selfScore));
         labelEnemyScore.setText(Integer.toString(enemyScore));
+    }
+    
+    @Override
+    public void setTurnLabel(String text){
+        turnLabel.setText(text);
+    }
+    
+    @Override
+    public void setIsPlayingFirst(boolean isPlayingFirst){
+        this.isPlayingFirst = isPlayingFirst;
     }
 
     @Override

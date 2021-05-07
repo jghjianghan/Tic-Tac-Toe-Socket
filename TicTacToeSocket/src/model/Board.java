@@ -134,6 +134,45 @@ public class Board {
         }
         return isBoardFull?GameState.DRAW:GameState.ONGOING;
     }
+    
+    public boolean[][] getColorArray(){
+        boolean [][] color = new boolean[3][3];
+        System.out.println("Color");
+        //Checks board in cardinal direction
+        for (int i = 0; i < 3; i++) {
+            //Horizontal
+            if (board[i][0] == board[i][1] && board[i][1] == board[i][2]){
+                System.out.println("H" + i);
+                color[i][0] = color[i][1] = color[i][2] = true;
+                return color;
+            }
+            
+            //Vertical
+            if (board[0][i] == board[1][i] && board[1][i] == board[2][i]){
+                System.out.println("V" + i);
+                color[0][i] = color[1][i] = color[2][i] = true;
+                return color;
+            }
+        }
+        System.out.println("Lurus aman");
+        
+        //Check the diagonals
+        if (board[0][0] == board[1][1] && board[1][1] == board[2][2]){
+            color[0][0] = color[1][1] = color[2][2] = true;
+            return color;
+        }
+        if (board[0][2] == board[1][1] && board[1][1] == board[2][0]){
+            color[0][2] = color[1][1] = color[2][0] = true;
+            return color;
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                color[i][j] = false;
+            }
+        }
+        return color;
+    }
 
     public boolean isValidMove(int row, int column){
         try {

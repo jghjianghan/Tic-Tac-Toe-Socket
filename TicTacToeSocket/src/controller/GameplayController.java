@@ -37,6 +37,7 @@ public class GameplayController {
     public void start() {
         new Thread(reader).start();
         view.start(this, board);
+        view.setIsPlayingFirst(isPlayingFirst);
     }
 
     public boolean processMove(int row, int column) {
@@ -63,11 +64,13 @@ public class GameplayController {
     }
 
     public void stop() {
+        System.out.println("controller stopping");
         writeToSocket("close");
         reader.stop();
     }
 
     private void shutdown() {
+        System.out.println("controller shutting down");
         reader.stop();
         view.stop();
     }
@@ -76,12 +79,15 @@ public class GameplayController {
         view.updateScore(myScore, enemyScore);
         isMyTurn = isPlayingFirst = !isPlayingFirst;
         board = new Board();
+        view.setIsPlayingFirst(isPlayingFirst);
         view.drawBoard(board);
+        view.drawBoardColor(new boolean[3][3]);
     }
 
     private void handleEndGame(GameState state) {
         switch (state) {
             case P1WIN:
+                view.drawBoardColor(board.getColorArray());
                 if (isPlayingFirst) {
                     myScore++;
                     view.showResult("You win");
@@ -100,6 +106,7 @@ public class GameplayController {
                     view.showResult("You win");
                 }
                 nextRound();
+                view.drawBoardColor(board.getColorArray());
                 break;
             case DRAW:
                 view.showResult("Draw");

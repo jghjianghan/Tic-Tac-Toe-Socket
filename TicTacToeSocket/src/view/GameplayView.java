@@ -13,6 +13,8 @@ public interface GameplayView {
      */
     public void drawBoard(Board board);
     
+    public void drawBoardColor(boolean isColored[][]);
+    
     /**
      * Method untuk menampilkan hasil permainan 
      * @param result Hasil permainan
@@ -25,6 +27,9 @@ public interface GameplayView {
      * @param enemyScore Skor lawan
      */
     public void updateScore(int selfScore, int enemyScore);
+    
+    public void setTurnLabel(String text);
+    public void setIsPlayingFirst(boolean isPlayingFirst);
     
     /**
      * Method ini dipanggil ketika program ingin dimulai
