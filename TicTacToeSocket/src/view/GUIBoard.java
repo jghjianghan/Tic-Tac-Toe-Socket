@@ -31,6 +31,8 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     public GUIBoard(boolean isServer) {
         initComponents();
         jLabel1.setText(isServer ? "Server" : "Client");
+        labelMyScore.setForeground(isServer ? Color.RED : Color.BLUE);
+        labelEnemyScore.setForeground(!isServer ? Color.RED : Color.BLUE);
 
         this.isServer = isServer;
         buttonBoard = new javax.swing.JButton[3][3];
@@ -84,7 +86,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         playerX = new javax.swing.JLabel();
         labelEnemyScore = new javax.swing.JLabel();
         labelMyScore = new javax.swing.JLabel();
-        btnReset = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -199,15 +200,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         labelMyScore.setForeground(new java.awt.Color(204, 0, 51));
         labelMyScore.setText("0");
 
-        btnReset.setBackground(new java.awt.Color(102, 102, 255));
-        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btnReset.setText("RESET");
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
-            }
-        });
-
         btnExit.setBackground(new java.awt.Color(204, 0, 0));
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnExit.setText("EXIT");
@@ -227,12 +219,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,11 +228,15 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                     .addComponent(playerX))
                 .addGap(30, 30, 30)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(playerY)
                     .addComponent(labelEnemyScore))
                 .addGap(94, 94, 94))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(135, 135, 135)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,9 +252,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                     .addComponent(labelEnemyScore, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -363,32 +351,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
 
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        btn1.setText(null);
-        btn2.setText(null);
-        btn3.setText(null);
-
-        btn4.setText(null);
-        btn5.setText(null);
-        btn6.setText(null);
-
-        btn7.setText(null);
-        btn8.setText(null);
-        btn9.setText(null);
-
-        btn1.setBackground(Color.LIGHT_GRAY);
-        btn2.setBackground(Color.LIGHT_GRAY);
-        btn3.setBackground(Color.LIGHT_GRAY);
-
-        btn4.setBackground(Color.LIGHT_GRAY);
-        btn5.setBackground(Color.LIGHT_GRAY);
-        btn6.setBackground(Color.LIGHT_GRAY);
-
-        btn7.setBackground(Color.LIGHT_GRAY);
-        btn8.setBackground(Color.LIGHT_GRAY);
-        btn9.setBackground(Color.LIGHT_GRAY);
-    }//GEN-LAST:event_btnResetActionPerformed
-
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
         processMove(0, 1);
     }//GEN-LAST:event_btn2ActionPerformed
@@ -437,7 +399,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     private javax.swing.JButton btn8;
     private javax.swing.JButton btn9;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnReset;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;

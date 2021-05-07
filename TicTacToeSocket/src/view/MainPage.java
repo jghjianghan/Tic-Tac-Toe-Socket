@@ -173,21 +173,10 @@ public class MainPage extends javax.swing.JFrame {
     private void hostgameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hostgameActionPerformed
         try {
             ServerSocket welcomeSocket = new ServerSocket(SERVER_PORT_NUMBER);
-            JDialog modalDialog = new JDialog(this, "Tic Tac Toe", ModalityType.DOCUMENT_MODAL);
-            
-            JLabel label1 = new JLabel("Waiting for opponent");
-            label1.setSize(50, 40);
-            label1.setHorizontalAlignment(JLabel.CENTER);
-            modalDialog.add(label1);
-            
-            modalDialog.setSize(200, 150);
-            modalDialog.setLocationRelativeTo(this);
-            modalDialog.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Waiting For Opponent\nClick OK when opponent is connected", "Hosting Game", JOptionPane.INFORMATION_MESSAGE);
             
             Socket connectionSocket = welcomeSocket.accept();
             System.out.println("Accepted");
-            modalDialog.setVisible(false);
-            modalDialog.dispose();
             
             this.setVisible(false);
             this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
