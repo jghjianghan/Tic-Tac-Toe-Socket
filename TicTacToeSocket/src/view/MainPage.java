@@ -186,28 +186,33 @@ public class MainPage extends javax.swing.JFrame {
             
             Socket connectionSocket = welcomeSocket.accept();
             System.out.println("Accepted");
+            modalDialog.setVisible(false);
+            modalDialog.dispose();
+            
+            this.setVisible(false);
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+            this.dispose();
 
             GameplayController controller = new GameplayController(true, connectionSocket);
             controller.start();
         } catch (IOException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setVisible(false);
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.dispose();
     }//GEN-LAST:event_hostgameActionPerformed
 
     private void joingame1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joingame1ActionPerformed
         GameplayController controller;
         try {
+            
             controller = new GameplayController(false, new Socket("127.0.0.1", SERVER_PORT_NUMBER));
             controller.start();
+            this.setVisible(false);
+            this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+            this.dispose();
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Cannot find host", "Error", JOptionPane.INFORMATION_MESSAGE);
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setVisible(false);
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.dispose();
     }//GEN-LAST:event_joingame1ActionPerformed
 
     

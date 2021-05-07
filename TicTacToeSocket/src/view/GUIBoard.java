@@ -1,8 +1,10 @@
 package view;
 
-
 import controller.GameplayController;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Board;
@@ -12,21 +14,24 @@ import model.Board;
  * @author USER
  */
 public class GUIBoard extends javax.swing.JFrame implements GameplayView {
+
     private final String crossSymbol = "X";
     private final String naughtSymbol = "O";
     private boolean isPlayingFirst;
     private final boolean isServer;
-    
+
     private final javax.swing.JButton[][] buttonBoard;
     private GameplayController controller;
+
     /**
      * Creates new form GUIBoard
+     *
      * @param isServer
      */
     public GUIBoard(boolean isServer) {
         initComponents();
-        jLabel1.setText(isServer?"Server":"Client");
-        
+        jLabel1.setText(isServer ? "Server" : "Client");
+
         this.isServer = isServer;
         buttonBoard = new javax.swing.JButton[3][3];
         buttonBoard[0][0] = btn1;
@@ -38,6 +43,20 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         buttonBoard[2][0] = btn7;
         buttonBoard[2][1] = btn8;
         buttonBoard[2][2] = btn9;
+
+        //exit handler
+        WindowListener exitListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                JFrame TicTacToe = new JFrame("Exit");
+
+                if (JOptionPane.showConfirmDialog(TicTacToe, "Apakah anda ingin keluar?", "Tic Tac Toe", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+                    controller.stop();
+                    controller.shutdown();
+                }
+            }
+        };
+        this.addWindowListener(exitListener);
     }
 
     /**
@@ -166,7 +185,8 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.darkGray));
 
         playerY.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        playerY.setText("Musuh");
+        playerY.setText("Lawan");
+        playerY.setToolTipText("");
 
         playerX.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         playerX.setText("Saya");
@@ -337,7 +357,8 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         JFrame TicTacToe = new JFrame("Exit");
 
         if (JOptionPane.showConfirmDialog(TicTacToe, "Apakah anda ingin keluar?", "Tic Tac Toe", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-            System.exit(0);
+            controller.stop();
+            controller.shutdown();
         }
 
     }//GEN-LAST:event_btnExitActionPerformed
@@ -346,23 +367,23 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         btn1.setText(null);
         btn2.setText(null);
         btn3.setText(null);
-        
+
         btn4.setText(null);
         btn5.setText(null);
         btn6.setText(null);
-        
+
         btn7.setText(null);
         btn8.setText(null);
         btn9.setText(null);
-        
+
         btn1.setBackground(Color.LIGHT_GRAY);
         btn2.setBackground(Color.LIGHT_GRAY);
         btn3.setBackground(Color.LIGHT_GRAY);
-        
+
         btn4.setBackground(Color.LIGHT_GRAY);
         btn5.setBackground(Color.LIGHT_GRAY);
         btn6.setBackground(Color.LIGHT_GRAY);
-        
+
         btn7.setBackground(Color.LIGHT_GRAY);
         btn8.setBackground(Color.LIGHT_GRAY);
         btn9.setBackground(Color.LIGHT_GRAY);
@@ -429,29 +450,29 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     private javax.swing.JLabel turnLabel;
     // End of variables declaration//GEN-END:variables
 
-    private void processMove(int row, int col){
-        
+    private void processMove(int row, int col) {
+
         System.out.println(controller.processMove(row, col));
     }
-    
+
     @Override
     public void drawBoard(Board board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                switch(board.getSymbol(i, j)){
+                switch (board.getSymbol(i, j)) {
                     case EMPTY:
                         buttonBoard[i][j].setText("");
                         break;
                     case P1:
                         buttonBoard[i][j].setText(crossSymbol);
-                        if (isServer){
-                            if (isPlayingFirst){ //my cell
+                        if (isServer) {
+                            if (isPlayingFirst) { //my cell
                                 buttonBoard[i][j].setForeground(Color.RED);
                             } else { //musuh
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             }
                         } else {
-                            if (isPlayingFirst){ //my cell
+                            if (isPlayingFirst) { //my cell
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             } else { //musuh
                                 buttonBoard[i][j].setForeground(Color.RED);
@@ -460,14 +481,14 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                         break;
                     case P2:
                         buttonBoard[i][j].setText(naughtSymbol);
-                        if (isServer){
-                            if (!isPlayingFirst){ //my cell
+                        if (isServer) {
+                            if (!isPlayingFirst) { //my cell
                                 buttonBoard[i][j].setForeground(Color.RED);
                             } else { //musuh
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             }
                         } else {
-                            if (!isPlayingFirst){ //my cell
+                            if (!isPlayingFirst) { //my cell
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             } else { //musuh
                                 buttonBoard[i][j].setForeground(Color.RED);
@@ -478,19 +499,19 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
             }
         }
     }
-    
+
     @Override
     public void drawBoardColor(boolean isColored[][]) {
-        for (int i = 0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                buttonBoard[i][j].setBackground(isColored[i][j]?Color.GREEN:null);
+                buttonBoard[i][j].setBackground(isColored[i][j] ? Color.GREEN : null);
             }
         }
     }
 
     @Override
     public void showResult(String result) {
-        JOptionPane.showMessageDialog(this, result, "Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, result, "Tic Tac Toe", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -498,25 +519,25 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         labelMyScore.setText(Integer.toString(selfScore));
         labelEnemyScore.setText(Integer.toString(enemyScore));
     }
-    
+
     @Override
-    public void setIsMyTurn(boolean isMyTurn){
-        turnLabel.setText(isMyTurn?"Giliran Saya":"Menunggu Lawan");
+    public void setIsMyTurn(boolean isMyTurn) {
+        turnLabel.setText(isMyTurn ? "Giliran Saya" : "Menunggu Lawan");
     }
-    
+
     @Override
-    public void setIsPlayingFirst(boolean isPlayingFirst){
+    public void setIsPlayingFirst(boolean isPlayingFirst) {
         this.isPlayingFirst = isPlayingFirst;
-        SymbolLabel.setText("Anda Bermain sebagai " + (isPlayingFirst?crossSymbol: naughtSymbol));
+        SymbolLabel.setText("Anda Bermain sebagai " + (isPlayingFirst ? crossSymbol : naughtSymbol));
     }
 
     @Override
     public void start(GameplayController controller, Board board) {
         this.controller = controller;
         drawBoard(board);
-        
+
         System.out.println("Started");
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -549,6 +570,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
 
     @Override
     public void stop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(this, "Opponent is disconnected", "Error", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
     }
 }

@@ -71,7 +71,7 @@ public class GameplayController {
         reader.stop();
     }
 
-    private void shutdown() {
+    public void shutdown() {
         System.out.println("controller shutting down");
         reader.stop();
         view.stop();
