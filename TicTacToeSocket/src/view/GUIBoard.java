@@ -12,12 +12,11 @@ import model.Board;
  * @author USER
  */
 public class GUIBoard extends javax.swing.JFrame implements GameplayView {
-    private final String CrossSymbol = "X";
-    private final String NaughtSymbol = "O";
+    private final String crossSymbol = "X";
+    private final String naughtSymbol = "O";
     private boolean isPlayingFirst;
     private final boolean isServer;
     
-    private String mulai = "X";
     private final javax.swing.JButton[][] buttonBoard;
     private GameplayController controller;
     /**
@@ -27,6 +26,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     public GUIBoard(boolean isServer) {
         initComponents();
         jLabel1.setText(isServer?"Server":"Client");
+        
         this.isServer = isServer;
         buttonBoard = new javax.swing.JButton[3][3];
         buttonBoard[0][0] = btn1;
@@ -69,6 +69,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
         btnExit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        SymbolLabel = new javax.swing.JLabel();
         turnLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -247,6 +248,10 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                 .addContainerGap())
         );
 
+        SymbolLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        SymbolLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SymbolLabel.setText("Simbol");
+
         turnLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         turnLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         turnLabel.setText("Giliran");
@@ -279,9 +284,14 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(turnLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(SymbolLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(t, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(532, Short.MAX_VALUE)
+                    .addComponent(turnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,8 +313,8 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                                 .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(turnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(28, 28, 28)
+                        .addComponent(SymbolLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,6 +322,11 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                         .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(259, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(444, Short.MAX_VALUE)
+                    .addComponent(turnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(361, 361, 361)))
         );
 
         pack();
@@ -390,6 +405,7 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     }//GEN-LAST:event_btn9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel SymbolLabel;
     private javax.swing.JButton btn1;
     private javax.swing.JButton btn2;
     private javax.swing.JButton btn3;
@@ -420,7 +436,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     
     @Override
     public void drawBoard(Board board) {
-        btn1.setText(mulai);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 switch(board.getSymbol(i, j)){
@@ -428,39 +443,33 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
                         buttonBoard[i][j].setText("");
                         break;
                     case P1:
+                        buttonBoard[i][j].setText(crossSymbol);
                         if (isServer){
                             if (isPlayingFirst){ //my cell
-                                buttonBoard[i][j].setText(CrossSymbol);
                                 buttonBoard[i][j].setForeground(Color.RED);
                             } else { //musuh
-                                buttonBoard[i][j].setText(CrossSymbol);
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             }
                         } else {
                             if (isPlayingFirst){ //my cell
-                                buttonBoard[i][j].setText(CrossSymbol);
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             } else { //musuh
-                                buttonBoard[i][j].setText(CrossSymbol);
                                 buttonBoard[i][j].setForeground(Color.RED);
                             }
                         }
                         break;
                     case P2:
+                        buttonBoard[i][j].setText(naughtSymbol);
                         if (isServer){
                             if (!isPlayingFirst){ //my cell
-                                buttonBoard[i][j].setText(NaughtSymbol);
                                 buttonBoard[i][j].setForeground(Color.RED);
                             } else { //musuh
-                                buttonBoard[i][j].setText(NaughtSymbol);
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             }
                         } else {
                             if (!isPlayingFirst){ //my cell
-                                buttonBoard[i][j].setText(NaughtSymbol);
                                 buttonBoard[i][j].setForeground(Color.BLUE);
                             } else { //musuh
-                                buttonBoard[i][j].setText(NaughtSymbol);
                                 buttonBoard[i][j].setForeground(Color.RED);
                             }
                         }
@@ -481,7 +490,6 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
 
     @Override
     public void showResult(String result) {
-        JFrame TicTacToe = new JFrame("Exit");
         JOptionPane.showMessageDialog(this, result, "Tic Tac Toe",JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -492,13 +500,14 @@ public class GUIBoard extends javax.swing.JFrame implements GameplayView {
     }
     
     @Override
-    public void setTurnLabel(String text){
-        turnLabel.setText(text);
+    public void setIsMyTurn(boolean isMyTurn){
+        turnLabel.setText(isMyTurn?"Giliran Saya":"Menunggu Lawan");
     }
     
     @Override
     public void setIsPlayingFirst(boolean isPlayingFirst){
         this.isPlayingFirst = isPlayingFirst;
+        SymbolLabel.setText("Anda Bermain sebagai " + (isPlayingFirst?crossSymbol: naughtSymbol));
     }
 
     @Override

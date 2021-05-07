@@ -28,7 +28,7 @@ public interface GameplayView {
      */
     public void updateScore(int selfScore, int enemyScore);
     
-    public void setTurnLabel(String text);
+    public void setIsMyTurn(boolean isMyTurn);
     public void setIsPlayingFirst(boolean isPlayingFirst);
     
     /**

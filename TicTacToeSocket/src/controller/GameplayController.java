@@ -38,6 +38,7 @@ public class GameplayController {
         new Thread(reader).start();
         view.start(this, board);
         view.setIsPlayingFirst(isPlayingFirst);
+        view.setIsMyTurn(isMyTurn);
     }
 
     public boolean processMove(int row, int column) {
@@ -45,6 +46,7 @@ public class GameplayController {
             if (board.isValidMove(row, column)) {
                 board.setSymbol(row, column, isPlayingFirst ? Symbol.P1 : Symbol.P2);
                 isMyTurn = false;
+                view.setIsMyTurn(isMyTurn);
                 view.drawBoard(board);
                 writeToSocket(board);
                 handleEndGame(board.evaluate());
@@ -80,6 +82,7 @@ public class GameplayController {
         isMyTurn = isPlayingFirst = !isPlayingFirst;
         board = new Board();
         view.setIsPlayingFirst(isPlayingFirst);
+        view.setIsMyTurn(isMyTurn);
         view.drawBoard(board);
         view.drawBoardColor(new boolean[3][3]);
     }
@@ -98,6 +101,7 @@ public class GameplayController {
                 nextRound();
                 break;
             case P1LOSE:
+                view.drawBoardColor(board.getColorArray());
                 if (isPlayingFirst) {
                     enemyScore++;
                     view.showResult("You lose");
@@ -106,7 +110,6 @@ public class GameplayController {
                     view.showResult("You win");
                 }
                 nextRound();
-                view.drawBoardColor(board.getColorArray());
                 break;
             case DRAW:
                 view.showResult("Draw");
@@ -140,6 +143,7 @@ public class GameplayController {
                         view.drawBoard(board);
                         handleEndGame(board.evaluate());
                         isMyTurn = true;
+                        view.setIsMyTurn(isMyTurn);
                     }
                 } catch (IOException e) {
                     stop();
