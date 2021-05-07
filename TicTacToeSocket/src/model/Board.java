@@ -83,10 +83,12 @@ public class Board {
      * @return The result of the game
      */
     public GameState evaluate(){
+        System.out.println("eval");
         //Checks board in cardinal direction
         for (int i = 0; i < 3; i++) {
             //Horizontal
             if (board[i][0] == board[i][1] && board[i][1] == board[i][2]){
+                System.out.println("H" + i);
                 if (board[i][0] == Symbol.P1){
                     return GameState.P1WIN;
                 } else if (board[i][0] == Symbol.P2) {
@@ -96,13 +98,15 @@ public class Board {
             
             //Vertical
             if (board[0][i] == board[1][i] && board[1][i] == board[2][i]){
+                System.out.println("V" + i);
                 if (board[0][i] == Symbol.P1){
                     return GameState.P1WIN;
-                } else if (board[0][1] == Symbol.P2) {
+                } else if (board[0][i] == Symbol.P2) {
                     return GameState.P1LOSE;
                 }
             }
         }
+        System.out.println("Lurus aman");
         
         //Check the diagonals
         if (board[0][0] == board[1][1] && board[1][1] == board[2][2]){

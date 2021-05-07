@@ -8,8 +8,7 @@ import java.net.Socket;
 import model.Board;
 import model.GameState;
 import model.Symbol;
-import view.CliBoard;
-import view.GameplayView;
+import view.*;
 
 /**
  *
@@ -32,15 +31,15 @@ public class GameplayController {
 
         reader = new SocketReader(socket);
         outSocket = new DataOutputStream(socket.getOutputStream());
-        view = new CliBoard(this, board);
+        view = new GUIBoard(isPlayingFirst);
     }
 
     public void start() {
         new Thread(reader).start();
-        view.start();
+        view.start(this, board);
     }
 
-    public String processMove(int row, int column) {
+    public boolean processMove(int row, int column) {
         if (isMyTurn) {
             if (board.isValidMove(row, column)) {
                 board.setSymbol(row, column, isPlayingFirst ? Symbol.P1 : Symbol.P2);
@@ -48,12 +47,10 @@ public class GameplayController {
                 view.drawBoard(board);
                 writeToSocket(board);
                 handleEndGame(board.evaluate());
-                return "Sending move";
-            } else {
-                return "Invalid move";
             }
+            return true;
         }
-        return "Not your turn";
+        return false;
     }
 
     private void writeToSocket(Object obj) {

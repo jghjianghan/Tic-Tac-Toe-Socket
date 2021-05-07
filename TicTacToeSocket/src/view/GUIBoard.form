@@ -257,7 +257,7 @@
                   <Component id="jLabel2" min="-2" pref="57" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="playerxx" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelMyScore" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="playerX" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -265,7 +265,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="playerY" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="playeryy" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEnemyScore" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
               </Group>
@@ -282,8 +282,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="playerxx" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="playeryy" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="labelMyScore" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="labelEnemyScore" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="43" max="32767" attributes="0"/>
@@ -313,7 +313,7 @@
             <Property name="text" type="java.lang.String" value="Saya"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="playeryy">
+        <Component class="javax.swing.JLabel" name="labelEnemyScore">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -324,7 +324,7 @@
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="playerxx">
+        <Component class="javax.swing.JLabel" name="labelMyScore">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>

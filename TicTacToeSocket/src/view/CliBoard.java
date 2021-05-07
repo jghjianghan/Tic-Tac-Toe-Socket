@@ -8,7 +8,7 @@ import controller.GameplayController;
 /**
  *
  */
-public class CliBoard implements GameplayView {
+public class CliBoard {
     private final Scanner sc = new Scanner(System.in);
     private final GameplayController controller;
     private boolean isRunning = true;
@@ -19,7 +19,7 @@ public class CliBoard implements GameplayView {
         drawBoard(board);
     }
 
-    @Override
+//    @Override
     public void start(){
         while(true){
             System.out.println("Move: ");
@@ -34,7 +34,7 @@ public class CliBoard implements GameplayView {
         }
     }
     
-    @Override
+//    @Override
     public final void drawBoard(Board board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -54,19 +54,19 @@ public class CliBoard implements GameplayView {
         }
     }
 
-    @Override
+//    @Override
     public void showResult(String result) {
         System.out.println(result);
     }
 
-    @Override
+//    @Override
     public void updateScore(int selfScore, int enemyScore) {
         System.out.println("Score:");
         System.out.println("You\t: " + selfScore);
         System.out.println("Enemy\t: " + enemyScore);
     }    
 
-    @Override
+//    @Override
     public void stop() {
         isRunning = false;
     }

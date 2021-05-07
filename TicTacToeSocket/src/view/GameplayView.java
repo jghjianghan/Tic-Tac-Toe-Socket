@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameplayController;
 import model.Board;
 
 /**
@@ -27,8 +28,10 @@ public interface GameplayView {
     
     /**
      * Method ini dipanggil ketika program ingin dimulai
+     * @param controller
+     * @param board
      */
-    public void start();
+    public void start(GameplayController controller, Board board);
     
     /**
      * Method ini dipanggil ketika program ingin dihentikan
